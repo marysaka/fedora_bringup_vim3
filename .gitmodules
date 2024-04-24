@@ -1,0 +1,3 @@
+[submodule "externals/amlogic-boot-fip"]
+	path = externals/amlogic-boot-fip
+	url = https://github.com/LibreELEC/amlogic-boot-fip

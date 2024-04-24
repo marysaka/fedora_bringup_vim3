@@ -1,0 +1,17 @@
+
+# We need to fixup the image to have something to flash...
+mkdir /tmp/fw_tmp
+echo "= Fixing up u-boot image for $TARGET"
+pushd $PWD/externals/amlogic-boot-fip
+./build-fip.sh $TARGET $PREFIX/usr/share/uboot/$TARGET/u-boot.bin /tmp/fw_tmp
+popd
+
+# write custom uboot
+echo "= Writing u-boot image for $TARGET .... on media $MEDIA"
+dd if=/tmp/fw_tmp/u-boot.bin.sd.bin of=$MEDIA bs=1 count=444; sync; sleep 5
+dd if=/tmp/fw_tmp/u-boot.bin.sd.bin of=$MEDIA bs=512 skip=1 seek=1; sync; sleep 5
+
+# Clean up directory
+rm -rf /tmp/fw_tmp &> /dev/null
+
+SYSCON=ttyAML0,115200
